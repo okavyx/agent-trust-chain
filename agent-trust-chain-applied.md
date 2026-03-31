@@ -166,6 +166,27 @@ Layer 4 - Governance:     ██░░░░░░░░ None/Basic
 4. Create a Sentinel playbook (Logic App) that automatically disables a service principal when specific alert conditions are met.
 5. Define trust levels (e.g., Dev, Pilot, Production-Limited, Production-Full) and the criteria for moving between them.
 
+### Target State (After the Framework)
+
+After implementing the recommendations above, the trust profile shifts substantially:
+
+```
+Layer 0 - Containment:    ████████░░ Intermediate/Advanced
+Layer 1 - Identity:       ██████████ Advanced
+Layer 2 - Authorization:  ████████░░ Intermediate
+Layer 3 - Observability:  ████████░░ Intermediate
+Layer 4 - Governance:     ██████░░░░ Intermediate
+```
+
+**What changed:**
+- **Containment** jumps from Basic to Intermediate/Advanced. Blast radius is documented and enforced: scoped permissions, resource caps, human gates on destructive actions. The remediation agent cannot delete resources. Copilot cannot surface content users should not see.
+- **Identity** moves from Intermediate to Advanced. Every agent has its own registered identity with delegation lineage. Managed identities replace shared secrets. The agent registry makes every identity auditable.
+- **Authorization** moves from Basic to Intermediate. Permissions enforced at infrastructure level, not prompts. Composition analysis documented. Context-aware scoping and budget controls in place. The `Sites.ReadWrite.All` service principal is gone.
+- **Observability** moves from Basic/Intermediate to solid Intermediate. All three sub-layers active: telemetry via Sentinel, structured reasoning traces for compliance-sensitive agents, outcome verification for remediation actions. Real-time intervention is possible.
+- **Governance** moves from None/Basic to Intermediate. Defined ownership, phased rollouts, tested revocation, automated narrowing on anomaly detection. Trust levels with documented promotion criteria.
+
+The shape inverts: identity was the only strong layer; now it is the floor, not the ceiling. The biggest gains are in containment and governance, the two layers most organisations neglect.
+
 ---
 
 ## Profile B: The Small Business
@@ -200,6 +221,20 @@ Layer 4 - Governance:     ░░░░░░░░░░ None
 ```
 
 This is not a criticism. It is the starting point. Every small business is here until someone shows them the risk and the path forward.
+
+### Target State (After the Minimum Viable Starting Point)
+
+After implementing the five actions from the minimum viable starting point (covered at the end of this section), the profile transforms:
+
+```
+Layer 0 - Containment:    ████░░░░░░ Basic
+Layer 1 - Identity:       ████░░░░░░ Basic
+Layer 2 - Authorization:  ████░░░░░░ Basic
+Layer 3 - Observability:  ████░░░░░░ Basic
+Layer 4 - Governance:     ████░░░░░░ Basic
+```
+
+This is the payoff. Five actions, one to two days, no consultants, no enterprise software. Every layer moves from None to Basic. And Basic across every layer is dramatically better than Advanced on one layer and None on the rest, because the chain is only as strong as its weakest link. A business with perfect identity management and zero containment is one prompt injection away from a breach. A business with Basic on everything has no catastrophic gaps.
 
 ### The Real Risk
 
@@ -336,3 +371,4 @@ You are free to share and adapt this material for any purpose, including commerc
 *Companion to [The Agent Trust Chain](agent-trust-chain.md). That document is the framework. This document is the field guide.*
 
 *Developed by [Okavyx](https://okavyx.ai).*
+
